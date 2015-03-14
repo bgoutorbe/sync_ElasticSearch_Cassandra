@@ -37,5 +37,35 @@ Python
 Documents can be created and inserted into databases from Python:
 
 ```python
-from sync import Document, ElasticSearchConnection, CassandraConnection
+from sync import Document, ElasticSearchConnection, CassandraConnectioen
+
+# connection to ElasticSearch (on localhost, default port)
+es = ElasticSearchConnection()
+
+# connection to keyspace `mykeyspace`, table `mytable` 
+# on  Cassandra (on localhost, default port)
+cass = CassandraConnection('mykeyspace', 'mytable')
+
+# new document, with automatic id (uuid4) and no timestamp
+doc = Document(index='myindex', type_='mytype', content={'any': 'content'})
+
+# inserting document into ElasticSearch/Cassandra with current timestamp
+# (or replacing if id already exists)
+es.insert_or_replace_document(doc)
+cass.insert_or_replace_document(doc)
+
+# document with explicit id and timestamp
+import uuid
+import datetime as dt
+id_ = uuid.uuid4()
+timestamp = dt.datetime.now()
+doc = Document(index='myindex', 
+               type_='mytype', 
+               content={'any': 'content'}, 
+               id_=id_, 
+               timestamp=timestamp)
+               
+# document is inserted with its timestamp (instead of current timestamp)
+es.insert_or_replace_document(doc)
+cass.insert_or_replace_document(doc)
 ```
