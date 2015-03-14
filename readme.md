@@ -69,10 +69,11 @@ doc = Document(index='myindex',
 es.insert_or_replace_document(doc)
 cass.insert_or_replace_document(doc)
 
-# just to check
-doc  # returns, e.g.: (Document)<id: 852338dd-cf0e-4124-a1a5-75d42bc71819, index: myindex, type: mytype, timestamp: 2015-03-14 17:04:35.736699>
+# checking
+doc  
+# returns, e.g.: (Document)<id: 852338dd-cf0e-4124-a1a5-75d42bc71819, index: myindex, type: mytype, timestamp: 2015-03-14 17:04:35.736699>
 
 cass.get_documents()
 es.get_documents()
-# returns, e.g., [(Document)<id: e99ae7e7-3930-4181-a48f-b5f710683eee, index: myindex, type: mytype, timestamp: 2015-03-14 17:02:40.301000>]
+# returns, e.g., [(Document)<id: 852338dd-cf0e-4124-a1a5-75d42bc71819, index: myindex, type: mytype, timestamp: 2015-03-14 17:02:40.301000>]
 ```
