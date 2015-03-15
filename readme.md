@@ -13,8 +13,9 @@ seconds.
 Documents of ElasticSearch database are synchronized, whatever their 
 index and type, with documents of KEYSPACE.TABLE in Cassandra database.
 
-In Cassandra, TABLE must have the following fields: id (uuid), index_ (varchar),
-type (varchar), timestamp (timestamp) and content (varchar) -- which
+In Cassandra, TABLE must have the following fields: id (uuid), 
+timestamp (timestamp), index_ (varchar), type (varchar) and 
+content (varchar), composite primary key (id, timestamp) -- which
 hold document metadata (id, index_, type) and content in JSON format.
 If they do not exist, KEYSPACE and/or TABLE are created with the schema
 above.
@@ -23,6 +24,12 @@ In ElasticSearch, field \_timestamp must be enabled and stored, for the
 index/doc_type of all of the database's documents. If the index and/or
 type of a document to be inserted do not exist, they are created with
 the mapping above (to enable and store \_timestamp).
+
+Every PERIOD seconds, the script looks for new documents (according to
+their timestamp) in both databases and performs the synchronization
+accordingly. So, the stored timestamp should be the time at which the
+document is inserted (or last updated) in the database, not the 
+document's intrinsic timestamp.
 
 Options:
 
@@ -65,7 +72,10 @@ doc = Document(index='myindex',
                id_=id_, 
                timestamp=timestamp)
                
-# document is inserted with its timestamp (instead of current timestamp)
+# document is inserted with its timestamp (instead of current timestamp).
+# Because the script, at each cycle, looks for documents whose timestamp
+# is more recent than the time of the previous synchronization cycle,
+# a document inserted with an old timestamp won't be synchronized.
 es.insert_or_replace_document(doc)
 cass.insert_or_replace_document(doc)
 
