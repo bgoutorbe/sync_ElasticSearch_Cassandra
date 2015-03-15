@@ -1,6 +1,13 @@
 Script that synchronizes documents between an ElasticSearch and a Cassandra
 database.
 
+Requirements
+------------
+
+Python 2.7 and the following packages are needed:
+- [elasticsearch-py](https://github.com/elastic/elasticsearch-py)
+- [cassandra-driver](https://github.com/datastax/python-driver)
+
 Usage
 -----
 
