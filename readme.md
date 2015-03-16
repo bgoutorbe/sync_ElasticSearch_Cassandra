@@ -21,9 +21,9 @@ Documents of ElasticSearch database are synchronized, whatever their
 index and type, with documents of KEYSPACE.TABLE in Cassandra database.
 
 In Cassandra, TABLE must have the following fields: id (uuid), 
-timestamp (timestamp), index_ (varchar), type (varchar) and 
+timestamp (timestamp), index\_ (varchar), type (varchar) and 
 content (varchar), composite primary key (id, timestamp) -- which
-hold document metadata (id, index_, type) and content in JSON format.
+hold document metadata (id, index\_, type) and content in JSON format.
 If they do not exist, KEYSPACE and/or TABLE are created with the schema
 above.
 
